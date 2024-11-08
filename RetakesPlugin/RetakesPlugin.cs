@@ -636,17 +636,9 @@ public class RetakesPlugin : BasePlugin
                 return;
             }
 
-            player.ChangeTeam(CsTeam.Spectator);
-            player.ExecuteClientCommand("teammenu");
+            player.ChangeTeam(CsTeam.CounterTerrorist);
+			_gameManager.QueueManager.PlayerJoinedTeam(player, CsTeam.Spectator, CsTeam.CounterTerrorist);
         });
-
-        // Many hours of hard work went into this.
-        if (new List<ulong> { 76561198028510846, 76561198044886803, 76561198414501446 }.Contains(player.SteamID))
-        {
-            var grant = _retakesConfig?.RetakesConfigData?.QueuePriorityFlag ?? "@css/vip";
-            player.PrintToConsole($"{LogPrefix}You have been given queue priority {grant} for being a Retakes contributor!");
-            AdminManager.AddPlayerPermissions(player, grant);
-        }
 
         return HookResult.Continue;
     }
